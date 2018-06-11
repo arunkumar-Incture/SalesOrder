@@ -1,301 +1,286 @@
-//
-//  ScannerViewController.swift
-//  SalesOrder
-//
-//  Created by Arun Kumar on 17/05/18.
-//  Copyright © 2018 Arun Kumar. All rights reserved.
-//
 
-//import UIKit
-//import AVFoundation
-//class CameraView: UIView {
-//    override class var layerClass: AnyClass {
-//        get {
-//            return AVCaptureVideoPreviewLayer.self
-//        }
-//    }
-//    override var layer: AVCaptureVideoPreviewLayer {
-//        get {
-//            return super.layer as! AVCaptureVideoPreviewLayer
-//        }
-//    }
-//}
-//class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-//
-//  var lblHeader = UILabel()
-//
-//    // Camera view
-//    var cameraView: CameraView!
-//    // AV capture session and dispatch queue
-//    let session = AVCaptureSession()
-//    let sessionQueue = DispatchQueue(label: AVCaptureSession.self.description(), attributes: [], target: nil)
-//
-//    override func loadView() {
-//        cameraView = CameraView()
-//        view = cameraView
-//    }
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        lblHeader.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 90)
-//        lblHeader.backgroundColor = .red
-//        self.view.addSubview(lblHeader)
-//        session.beginConfiguration()
-//        let videoDevice = AVCaptureDevice.default(for: AVMediaType.video)
-//        if (videoDevice != nil) {
-//            let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!)
-//            if (videoDeviceInput != nil) {
-//                if (session.canAddInput(videoDeviceInput!)) {
-//                    session.addInput(videoDeviceInput!)
-//                }
-//            }
-//            let metadataOutput = AVCaptureMetadataOutput()
-//            if (session.canAddOutput(metadataOutput)) {
-//                session.addOutput(metadataOutput)
-//                metadataOutput.metadataObjectTypes = [
-//                    AVMetadataObject.ObjectType.ean13,
-//                    AVMetadataObject.ObjectType.qr
-//                ]
-//                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-//            }
-//        }
-//        session.commitConfiguration()
-//        cameraView.layer.session = session
-//        cameraView.layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//        // Set initial camera orientation
-//        let videoOrientation: AVCaptureVideoOrientation
-//        switch UIApplication.shared.statusBarOrientation {
-//        case .portrait:
-//            videoOrientation = .portrait
-//        case .portraitUpsideDown:
-//            videoOrientation = .portraitUpsideDown
-//        case .landscapeLeft:
-//            videoOrientation = .landscapeLeft
-//        case .landscapeRight:
-//            videoOrientation = .landscapeRight
-//        default:
-//            videoOrientation = .portrait
-//        }
-//        cameraView.layer.connection?.videoOrientation = .portrait
-//    }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        // Start AV capture session
-//        sessionQueue.async {
-//            self.session.startRunning()
-//        }
-//    }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        // Stop AV capture session
-//        sessionQueue.async {
-//            self.session.stopRunning()
-//        }
-//    }
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//        // Update camera orientation
-//        let videoOrientation: AVCaptureVideoOrientation
-//        switch UIDevice.current.orientation {
-//        case .portrait:
-//            videoOrientation = .portrait
-//        case .portraitUpsideDown:
-//            videoOrientation = .portraitUpsideDown
-//        case .landscapeLeft:
-//            videoOrientation = .landscapeRight
-//        case .landscapeRight:
-//            videoOrientation = .landscapeLeft
-//        default:
-//            videoOrientation = .portrait
-//        }
-//        cameraView.layer.connection?.videoOrientation = .portrait
-//    }
-//    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-//        // Display barcode value
-//        if (metadataObjects.count > 0 && metadataObjects.first is AVMetadataMachineReadableCodeObject) {
-//            let scan = metadataObjects.first as! AVMetadataMachineReadableCodeObject
-//
-////            let alertController = UIAlertController(title: "Materialcode", message: scan.stringValue, preferredStyle: UIAlertControllerStyle.alert)
-////            alertController.addTextField { (textField : UITextField!) -> Void in
-////                textField.placeholder = "Materialcode"
-////                alertController.addTextField { (textField : UITextField!) -> Void in
-////                    textField.placeholder = "Qty"
-////            }
-////            let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: { alert -> Void in
-////                let firstTextField = alertController.textFields![0] as UITextField
-////                let secondTextField = alertController.textFields![1] as UITextField
-////                print(firstTextField)
-////                print(secondTextField)
-////
-////            })
-////            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {
-////                (action : UIAlertAction!) -> Void in })
-////            alertController.addTextField { (textField : UITextField!) -> Void in
-////                textField.placeholder = "Enter First Name"
-////            }
-////
-////            alertController.addAction(saveAction)
-////            alertController.addAction(cancelAction)
-////
-////            self.present(alertController, animated: true, completion: nil)
-//
-//            let alertController = UIAlertController(title: "Barcode Scanned", message: scan.stringValue, preferredStyle: .alert)
-//            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler:nil))
-//            present(alertController, animated: true, completion: nil)
-//        }
-//    }
-//}
-////}
-//
-//
-
-//import UIKit
-//import AVFoundation
-//
-//
-//class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-//    class ViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-//        var captureSession: AVCaptureSession!
-//        var previewLayer: AVCaptureVideoPreviewLayer!
-//
-//        override func viewDidLoad() {
-//            super.viewDidLoad()
-//
-//            view.backgroundColor = UIColor.black
-//            captureSession = AVCaptureSession()
-//
-//            let videoCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video)
-//            let videoInput: AVCaptureDeviceInput
-//
-//            do {
-//                videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice!)
-//            } catch {
-//                return
-//            }
-//
-//            if (captureSession.canAddInput(videoInput)) {
-//                captureSession.addInput(videoInput)
-//            } else {
-//                failed();
-//                return;
-//            }
-//
-//            let metadataOutput = AVCaptureMetadataOutput()
-//
-//            if (captureSession.canAddOutput(metadataOutput)) {
-//                captureSession.addOutput(metadataOutput)
-//
-//                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-//                metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.ean8, AVMetadataObject.ObjectType.ean13, AVMetadataObject.ObjectType.pdf417]
-//            } else {
-//                failed()
-//                return
-//            }
-//
-//            previewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
-//            previewLayer.frame = view.layer.bounds;
-//            previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
-//            view.layer.addSublayer(previewLayer);
-//
-//            captureSession.startRunning();
-//        }
-//
-//        func failed() {
-//            let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
-//            ac.addAction(UIAlertAction(title: "OK", style: .default))
-//            present(ac, animated: true)
-//            captureSession = nil
-//        }
-//
-//        override func viewWillAppear(_ animated: Bool) {
-//            super.viewWillAppear(animated)
-//
-//            if (captureSession?.isRunning == false) {
-//                captureSession.startRunning();
-//            }
-//        }
-//
-//        override func viewWillDisappear(_ animated: Bool) {
-//            super.viewWillDisappear(animated)
-//
-//            if (captureSession?.isRunning == true) {
-//                captureSession.stopRunning();
-//            }
-//        }
-//
-//     //   func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!)
-//
-//        func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection)
-//
-//        {
-//            captureSession.stopRunning()
-//
-//            if let metadataObject = metadataObjects.first {
-//                let readableObject = metadataObject as! AVMetadataMachineReadableCodeObject;
-//
-//                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-//                found(code: readableObject.stringValue!);
-//            }
-//
-//            dismiss(animated: true)
-//        }
-//
-//        func found(code: String) {
-//            print(code)
-//        }
-//
-//        override var prefersStatusBarHidden: Bool {
-//            return true
-//        }
-//
-//        override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//            return .portrait
-//        }
-//    }}
 import UIKit
 import AVFoundation
 
-class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate,UITextFieldDelegate {
     
-    var captureDevice:AVCaptureDevice?
-    var videoPreviewLayer:AVCaptureVideoPreviewLayer?
+    //var captureDevice:AVCaptureDevice?
+    var previewLayer:AVCaptureVideoPreviewLayer?
+    var captureSession: AVCaptureSession!
+    var strBarcode = NSString()
+    @IBOutlet var lblOR: UILabel!
+    
+    @IBOutlet var txtBarcodeValue: UITextField!
+    
+    @IBOutlet var viewPostscan: UIView!
+    
+    @IBOutlet var lblBarcodeValue: UILabel!
+    
+    @IBOutlet var txtQty: UITextField!
+    
+    @IBOutlet var btnSave: UIButton!
+    
+    @IBOutlet var btnCancel: UIButton!
+    
+    @IBOutlet var btnQtyInfo: UIButton!
+    
+    @IBOutlet var lblQtyInfo: UILabel!
+    
+    
+    var btnBackBarcode: UIButton!
+    
+    
+    
+    
+    @IBAction func didActionSave(_ sender: Any)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func didActionCancel(_ sender: Any) {
+        viewPostscan.isHidden = true
+        txtQty.resignFirstResponder()
+        barcodescanInitiate()
+
+        //self.barcodescanInitiate()
+    }
+    
+    
+    
+    
+    @IBAction func didActionHome(_ sender: Any) {
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationItem.title = "Scanner"
         view.backgroundColor = .white
-        
-        captureDevice = AVCaptureDevice.default(for: .video)
-        // Check if captureDevice returns a value and unwrap it
-        if let captureDevice = captureDevice {
-            
-            do {
-                let input = try AVCaptureDeviceInput(device: captureDevice)
-                
-                let captureSession = AVCaptureSession()
-                captureSession.addInput(input)
-                
-                let captureMetadataOutput = AVCaptureMetadataOutput()
-                captureSession.addOutput(captureMetadataOutput)
-                
-                captureMetadataOutput.setMetadataObjectsDelegate(self, queue: .main)
-                captureMetadataOutput.metadataObjectTypes = [.code128, .qr, .ean13,  .ean8, .code39] //AVMetadataObject.ObjectType
-                
-                captureSession.startRunning()
-                
-                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                videoPreviewLayer?.videoGravity = .resizeAspectFill
-                videoPreviewLayer?.frame = view.layer.bounds
-                view.layer.addSublayer(videoPreviewLayer!)
-                print("Error Device Input")
+        lblQtyInfo.isHidden = true
 
-            } catch {
-                print("Error Device Input")
-            }
-            
+        txtBarcodeValue.delegate = self
+        txtQty.delegate = self
+
+        lblOR.layer.cornerRadius = lblOR.frame.size.height/2.0
+        lblOR.layer.masksToBounds = true
+        lblOR.layer.borderWidth = 1.0
+        lblOR.layer.backgroundColor = UIColor.black.cgColor
+        
+        //: X=20 Y=40 Width=280 Height=350
+        //view.frame = CGRect(x: 60, y:160, width: 280, height: 200)
+        //btnBackBarcode = UIButton()
+        
+       barcodescanInitiate()
+    }
+    
+   
+    
+    @IBAction func didActionQtyInfo(_ sender: UIButton) {
+       
+     
+        if ((sender as AnyObject).isSelected == true)
+        {
+            sender.isSelected = false;
+            lblQtyInfo.isHidden = true
+            lblQtyInfo.text = " Inventory stock: 200"
+        }
+        else
+        {
+            sender.isSelected = true;
+            lblQtyInfo.isHidden = false
+            lblQtyInfo.text = " Inventory stock: 200"
+        }
+    }
+    
+    
+   @IBAction  func barcodescanInitiate(){
+      //  view.backgroundColor = UIColor.black
+        captureSession = AVCaptureSession()
+    
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+        let videoInput: AVCaptureDeviceInput
+    
+        do {
+            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+        } catch {
+            return
+        }
+    
+        if (captureSession.canAddInput(videoInput)) {
+            captureSession.addInput(videoInput)
+        } else {
+            failed()
+            return
         }
         
+        let metadataOutput = AVCaptureMetadataOutput()
+    
+        if (captureSession.canAddOutput(metadataOutput)) {
+            captureSession.addOutput(metadataOutput)
+            print(metadataOutput)
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417]
+        } else {
+            failed()
+            return
+        }
+    
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer?.frame = CGRect(x: 0, y:140, width: self.view.frame.size.width, height: self.view.frame.size.height)
+       // previewLayer?.frame = view.layer.bounds
+        previewLayer?.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(previewLayer!)
+    
+        captureSession.startRunning()
+
+    
+    
     }
+    
+  
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func failed() {
+        let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+        captureSession = nil
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        self.view.addGestureRecognizer(tapGesture)
+        
+        if (captureSession?.isRunning == false) {
+            captureSession.startRunning()
+            previewLayer?.isHidden = false
+
+        }
+        
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (captureSession?.isRunning == true) {
+            captureSession.stopRunning()
+            self.dismiss(animated: true, completion: nil)
+previewLayer?.isHidden = true
+        }
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        captureSession.stopRunning()
+        
+        if let metadataObject = metadataObjects.first {
+            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+            guard let stringValue = readableObject.stringValue else { return }
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            found(code: stringValue)
+        }
+        
+        dismiss(animated: true)
+    }
+    
+    func found(code: String) {
+        print(code)
+        
+        print("BARCODE--> \(code) ")
+        strBarcode = code as NSString
+        print("strBarcode--> \(strBarcode) ")
+
+       viewPostscan.isHidden = false
+        lblBarcodeValue.text = strBarcode as String
+        self.view.addSubview(viewPostscan)
+//        let alert = UIAlertController(title: "Found a Barcode!", message: code, preferredStyle: UIAlertControllerStyle.alert)
+//
+//        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//       // show(alert, sender: self)
+//self.present(alert, animated: false, completion: nil)
+   //  self.navigationController?.popViewController(animated: true)
+
+    }
+    
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    @IBAction func didActionSearch(_ sender: Any) {
+        if !((txtBarcodeValue.text?.isEmpty)! )
+        {
+            txtBarcodeValue .resignFirstResponder()
+            viewPostscan.isHidden = false
+            strBarcode = txtBarcodeValue.text! as NSString
+            lblBarcodeValue.text = strBarcode as String
+            self.view.addSubview(viewPostscan)
+        }
+        else{
+            txtBarcodeValue .resignFirstResponder()
+
+            viewPostscan.isHidden = true
+
+        }
+       
+  }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    //Text field delegates
+    
+    func textFieldDidBeginEditing(_ textField: UITextField)
+    {
+        //  let a = lbStockINQTY.text as NSInteger
+        //let b = lbStockOUTQTY.text as NSInteger
+        print("Text field edit")
+        
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool
+    {
+        print("Text field should begin edit")
+
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField)
+    {
+        print("Text field did end edit")
+        txtBarcodeValue.resignFirstResponder()
+        txtQty.resignFirstResponder()
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        txtBarcodeValue.resignFirstResponder()
+        txtQty.resignFirstResponder()
+        return true
+
+    }
+    
+//     func textFieldShouldReturn(textField: UITextField) -> Bool
+//    {
+//        txtBarcodeValue.resignFirstResponder()
+//        txtQty.resignFirstResponder()
+//        for textField in self.view.subviews where textField is UITextField {
+//            textField.resignFirstResponder()
+//        }
+//
+//
+//        return true
+//    }
 //    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
 //        if metadataObjects.count == 0 {
 //            print("No Input Detected")

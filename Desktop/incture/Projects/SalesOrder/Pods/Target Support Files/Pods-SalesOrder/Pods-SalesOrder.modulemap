@@ -1,0 +1,6 @@
+framework module Pods_SalesOrder {
+  umbrella header "Pods-SalesOrder-umbrella.h"
+
+  export *
+  module * { export * }
+}
